@@ -138,6 +138,36 @@ export class AppComponent {
     return vaultsNames
   }
 
+  private isAscendingSort: boolean = false;
+
+  compare(item1: any, item2: any): number {
+    let compValue = 0;
+      compValue = item1.vault.localeCompare(item2.vault, 'en', {
+        sensitivity: 'base'
+      });
+    if (!this.isAscendingSort) {
+      compValue = compValue * -1;
+    }
+    return compValue;
+  }
+
+  sortVaults() {
+    this.isAscendingSort = !this.isAscendingSort; // you missed this
+
+    this.vaults.sort((item1: Vault, item2: Vault) => this.compare(item1.vault, item2.vault));
+  }
+
+  // sort(key: string): Vault[] {
+  //     return this.vaults.sort((a: Vault, b: Vault) => a[key] > b[key] ? 1 : a[key] === b[key] ? 0 : -1);
+  // }
+
+  // sortByKey(array: any[], key: string): Vault[] {
+  //   return array.sort(function (a, b) {
+  //     var x = a[key]; var y = b[key]
+  //     return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+  //   })
+  // }
+
   filterVaultByName(filter: string): Vault[] {
 
     return this.vaults.filter(vault => vault.vault.includes(filter))
