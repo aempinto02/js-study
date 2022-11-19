@@ -18,8 +18,6 @@ export class FilterPipe implements PipeTransform {
     }
     searchText = searchText.toLocaleLowerCase();
 
-    return items.filter(it => {
-      return it.toLocaleLowerCase().includes(searchText);
-    });
+    return items.filter(vault => vault.vault.startsWith(searchText));
   }
 }

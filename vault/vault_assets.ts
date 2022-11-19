@@ -57,6 +57,15 @@ const vaults: Vault[] = [
     },
 ]
 
+function vaultsNames(vaults: Vault[]): string[] {
+    let vaultsNames: string[] = []
+    vaults.forEach(vault => {
+        vaultsNames.push(vault.vault)
+    })
+
+    return vaultsNames
+}
+
 function assetsByVaults(vaults: Vault[]): Map<string, string[]> {
     let assetsMap = new Map<string, string[]>()
     vaults.forEach(vault => {

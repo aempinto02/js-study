@@ -56,6 +56,40 @@ export class AppComponent {
       ],
     },
     {
+      vault: 'ab',
+      transactions: [
+        {
+          balance: 1,
+          asset: 'BTC'
+        },
+        {
+          balance: 2,
+          asset: 'BTC'
+        },
+        {
+          balance: 3,
+          asset: 'ETH'
+        },
+      ],
+    },
+    {
+      vault: 'bb',
+      transactions: [
+        {
+          balance: 1,
+          asset: 'BTC'
+        },
+        {
+          balance: 2,
+          asset: 'BTC'
+        },
+        {
+          balance: 3,
+          asset: 'ETH'
+        },
+      ],
+    },
+    {
       vault: 'c',
       transactions: [
         {
@@ -79,7 +113,7 @@ export class AppComponent {
   }
 
   searchText = '';
-  characters = ['a','b','c']
+  characters = ['a', 'b', 'c']
 
   status = ['em processamento', 'cancelado', 'concluído']
 
@@ -92,5 +126,29 @@ export class AppComponent {
       return 'green';
     }
     return 'black';
+  }
+
+
+  vaultsNames(vaults: Vault[]): string[] {
+    let vaultsNames: string[] = []
+    vaults.forEach(vault => {
+      vaultsNames.push(vault.vault)
+    })
+
+    return vaultsNames
+  }
+
+  filterVaultByName(filter: string): Vault[] {
+
+    return this.vaults.filter(vault => vault.vault.includes(filter))
+
+    let result: Vault[] = []
+    this.vaults.forEach(vault => {
+      if (vault.vault.includes(filter)) {
+        result.push(vault)
+      }
+    })
+
+    return result
   }
 }

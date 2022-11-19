@@ -335,19 +335,20 @@
   <div class="card">
     <div class="form-group">
       <label for="search-text">Search Text</label>
-      <input type="email" class="form-control" id="search-text" aria-describedby="search-text" [(ngModel)]="searchText"
-        placeholder="Enter text to search" autofocus>
+      <input type="email" class="form-control" id="search-text" aria-describedby="search-text" 
+        [(ngModel)]="searchText" placeholder="Enter text to search" 
+        autofocus>
     </div>
-    <ul class="list-group list-group-flush">
+    <!-- <ul class="list-group list-group-flush"> -->
       <!-- results of ngFor is passed to appFilter with argument searchText -->
-      <li class="list-group-item" *ngFor="let c of characters | appFilter: searchText">
+      <!-- <li class="list-group-item" *ngFor="let c of characters | appFilter: searchText">
         {{c}}
       </li>
-    </ul>
+    </ul> -->
   </div>
 </div>
 <div class="content" role="main">
-  <mat-card *ngFor="let vault of vaults">
+  <mat-card *ngFor="let vault of vaults | appFilter: searchText">
     <mat-card-content>
       {{ vault.vault }}
     </mat-card-content>
