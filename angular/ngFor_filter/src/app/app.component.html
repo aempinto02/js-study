@@ -328,10 +328,36 @@
 </div>
 
 <div class="content" role="main">
-  <h1>TESTE</h1>
+  <!-- <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field> -->
+  <div class="card">
+    <div class="form-group">
+      <label for="search-text">Search Text</label>
+      <input type="email" class="form-control" id="search-text" aria-describedby="search-text" [(ngModel)]="searchText"
+        placeholder="Enter text to search" autofocus>
+    </div>
+    <ul class="list-group list-group-flush">
+      <!-- results of ngFor is passed to appFilter with argument searchText -->
+      <li class="list-group-item" *ngFor="let c of characters | appFilter: searchText">
+        {{c}}
+      </li>
+    </ul>
+  </div>
 </div>
 <div class="content" role="main">
-  <h1>TESTE2</h1>
+  <mat-card *ngFor="let vault of vaults">
+    <mat-card-content>
+      {{ vault.vault }}
+    </mat-card-content>
+    <mat-card-content>
+      {{ vault.transactions[0].balance }}
+    </mat-card-content>
+    <mat-card-content>
+      {{ vault.transactions[0].asset }}
+    </mat-card-content>
+  </mat-card>
 </div>
 <div class="content" role="main">
   <h1 *ngFor="let state of status" [style.color]="getBackgroundColor(state)">{{state}}</h1>
