@@ -11,12 +11,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterPipe } from './utils/filter.pipe';
 import { AppComponent } from './app.component';
 import { SortableButtonDirective } from './utils/sort_directive';
+import { OrderByPipe } from './utils/sort.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     FilterPipe,
-    SortableButtonDirective
+    SortableButtonDirective,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,

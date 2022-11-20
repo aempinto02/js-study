@@ -346,7 +346,7 @@
     </ul> -->
     <div class="card">
       <!-- MUDAR CASO QUEIRA OUTROS VALORES PARA ORDENAR!!!-->
-      <button ng-click="changeOrder('vault')">Sort</button>
+      <button (click)="changeOrder()">Sort</button>
     </div>
   </div>
 </div>
@@ -354,20 +354,54 @@
   <!-- <ng-template ngFor let-vehicle [ngForOf]=”vehicles”> {{vehicle.key}}
     
   </ng-template> -->
-  <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText">
-    <mat-card-content>
-      <button ng-click="sortBy('vault')">Vault</button>
-      {{ vault.vault }}
-    </mat-card-content>
-    <mat-card-content>
-      <button ng-click="sortBy('balance')">Balance</button>
-      {{ vault.transactions[0].balance }}
-    </mat-card-content>
-    <mat-card-content>
-      <button ng-click="sortBy('asset')">Asset</button>
-      {{ vault.transactions[0].asset }}
-    </mat-card-content>
-  </mat-card>
+  <div *ngIf="normalVaultsOrder">
+    <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText">
+      <mat-card-content>
+        <button ng-click="sortBy('vault')">Vault</button>
+        {{ vault.vault }}
+      </mat-card-content>
+      <mat-card-content>
+        <button ng-click="sortBy('balance')">Balance</button>
+        {{ vault.transactions[0].balance }}
+      </mat-card-content>
+      <mat-card-content>
+        <button ng-click="sortBy('asset')">Asset</button>
+        {{ vault.transactions[0].asset }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="!normalVaultsOrder && !reverseVaultsSort">
+    <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText | sort: 'vault' : 'asc'">
+      <mat-card-content>
+        <button ng-click="sortBy('vault')">Vault</button>
+        {{ vault.vault }}
+      </mat-card-content>
+      <mat-card-content>
+        <button ng-click="sortBy('balance')">Balance</button>
+        {{ vault.transactions[0].balance }}
+      </mat-card-content>
+      <mat-card-content>
+        <button ng-click="sortBy('asset')">Asset</button>
+        {{ vault.transactions[0].asset }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="!normalVaultsOrder && reverseVaultsSort">
+    <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText | sort: 'vault' : 'desc'">
+      <mat-card-content>
+        <button ng-click="sortBy('vault')">Vault</button>
+        {{ vault.vault }}
+      </mat-card-content>
+      <mat-card-content>
+        <button ng-click="sortBy('balance')">Balance</button>
+        {{ vault.transactions[0].balance }}
+      </mat-card-content>
+      <mat-card-content>
+        <button ng-click="sortBy('asset')">Asset</button>
+        {{ vault.transactions[0].asset }}
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 <!-- <div [hidden]="normalVaultsOrder || reverseVaultsSort" class="content" role="main">
   <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText | orderBy: 'vault' : false">

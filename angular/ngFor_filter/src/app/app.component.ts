@@ -111,7 +111,6 @@ export class AppComponent {
     },
   ]
 
-
   normalVaultsOrder: boolean = true
   reverseVaultsSort: boolean = false
   changes: number = 0
@@ -155,12 +154,18 @@ export class AppComponent {
     return vaultsNames
   }
 
-  changeOrder(value: string): void {
-    if (this.order === value) {
-      this.reverseVaultsSort = !this.reverseVaultsSort;
+  changeOrder(): void {
+    console.log("ENTREI NO changeOrder")
+    if (this.normalVaultsOrder) {
+      this.normalVaultsOrder = !this.normalVaultsOrder
+      this.changes++
+    } else if (this.changes < 2) {
+      this.reverseVaultsSort = !this.reverseVaultsSort
+      this.changes++
+    } else {
+      this.normalVaultsOrder = !this.normalVaultsOrder
+      this.changes = 0
     }
-
-    this.order = value;
   }
 
   sortVaults(vaults: Vault[]): Vault[] {
