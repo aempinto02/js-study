@@ -39,7 +39,7 @@ export class AppComponent {
       ],
     },
     {
-      vault: 'b',
+      vault: 'c',
       transactions: [
         {
           balance: 1,
@@ -73,7 +73,7 @@ export class AppComponent {
       ],
     },
     {
-      vault: 'bb',
+      vault: 'zb',
       transactions: [
         {
           balance: 1,
@@ -103,6 +103,13 @@ export class AppComponent {
       ]
     },
   ]
+
+  sortedVaults: Vault[]
+
+  constructor(private orderPipe: OrderPipe) {
+    this.sortedVaults = orderPipe.transform(this.vaults, 'vault');
+  }
+
 
   displayedColumns: string[] = ['vault', 'balance', 'status'];
   dataSource = new MatTableDataSource(this.vaults);
@@ -138,23 +145,36 @@ export class AppComponent {
     return vaultsNames
   }
 
-  private isAscendingSort: boolean = false;
+  normalVaultsOrder: boolean = true;
+  isAscendingSort: boolean = false;
+  changes: number = 0
 
-  compare(item1: any, item2: any): number {
-    let compValue = 0;
-      compValue = item1.vault.localeCompare(item2.vault, 'en', {
-        sensitivity: 'base'
-      });
-    if (!this.isAscendingSort) {
-      compValue = compValue * -1;
+  changeOrder(): void {
+    if (this.normalVaultsOrder) {
+      this.normalVaultsOrder = false
+      this.changes++
+    } else if (this.changes > 1) {
+      this.normalVaultsOrder = true
+      this.changes = 0
+    } else {
+      this.isAscendingSort = !this.isAscendingSort
     }
-    return compValue;
   }
 
-  sortVaults() {
-    this.isAscendingSort = !this.isAscendingSort; // you missed this
+  sortVaults(vaults: Vault[]): Vault[] {
+    let result: Vault[] = []
+    let clone: Vault[] = JSON.parse(JSON.stringify(vaults))
+    if (!this.isAscendingSort) {
+      result = clone.sort((a, b) => {
+        return a.vault >= b.vault ? 1 : -1
+      })
+      return result
+    }
+    result = clone.sort((a, b) => {
+      return a.vault < b.vault ? 1 : -1
+    })
 
-    this.vaults.sort((item1: Vault, item2: Vault) => this.compare(item1.vault, item2.vault));
+    return result
   }
 
   // sort(key: string): Vault[] {

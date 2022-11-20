@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrderModule } from 'ngx-order-pipe';
 import { FilterPipe } from './utils/filter.pipe';
 
 @NgModule({
@@ -23,7 +24,8 @@ import { FilterPipe } from './utils/filter.pipe';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
