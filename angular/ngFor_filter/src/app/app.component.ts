@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  SortableButtonDirective,
+  SortEvent,
+  compare,
+} from './utils/sort_directive';
 
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -18,6 +23,8 @@ export interface Transaction {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild(SortableButtonDirective, { static: false }) toSort!: SortableButtonDirective;
+
   title = 'ngFor_filter';
 
   vaults: Vault[] = [
@@ -104,12 +111,16 @@ export class AppComponent {
     },
   ]
 
-  sortedVaults: Vault[]
 
-  constructor(private orderPipe: OrderPipe) {
-    this.sortedVaults = orderPipe.transform(this.vaults, 'vault');
+  normalVaultsOrder: boolean = true
+  reverseVaultsSort: boolean = false
+  changes: number = 0
+  order: string = 'vault'
+
+  vaultsToSort: Vault[] = JSON.parse(JSON.stringify(this.vaults))
+
+  constructor() {
   }
-
 
   displayedColumns: string[] = ['vault', 'balance', 'status'];
   dataSource = new MatTableDataSource(this.vaults);
@@ -135,7 +146,6 @@ export class AppComponent {
     return 'black';
   }
 
-
   vaultsNames(vaults: Vault[]): string[] {
     let vaultsNames: string[] = []
     vaults.forEach(vault => {
@@ -145,26 +155,18 @@ export class AppComponent {
     return vaultsNames
   }
 
-  normalVaultsOrder: boolean = true;
-  isAscendingSort: boolean = false;
-  changes: number = 0
-
-  changeOrder(): void {
-    if (this.normalVaultsOrder) {
-      this.normalVaultsOrder = false
-      this.changes++
-    } else if (this.changes > 1) {
-      this.normalVaultsOrder = true
-      this.changes = 0
-    } else {
-      this.isAscendingSort = !this.isAscendingSort
+  changeOrder(value: string): void {
+    if (this.order === value) {
+      this.reverseVaultsSort = !this.reverseVaultsSort;
     }
+
+    this.order = value;
   }
 
   sortVaults(vaults: Vault[]): Vault[] {
     let result: Vault[] = []
     let clone: Vault[] = JSON.parse(JSON.stringify(vaults))
-    if (!this.isAscendingSort) {
+    if (!this.reverseVaultsSort) {
       result = clone.sort((a, b) => {
         return a.vault >= b.vault ? 1 : -1
       })
@@ -187,6 +189,42 @@ export class AppComponent {
   //     return ((x < y) ? -1 : ((x > y) ? 1 : 0))
   //   })
   // }
+
+  direction = 'asc'
+  column = 'vault'
+  type = 'string'
+
+  setSortParams(param: any) {
+    this.direction = param.dir;
+    this.column = param.col;
+    this.type = param.typ;
+  }
+
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    // this.toSort.forEach((item) => {
+    //   if (item.sortable !== column) {
+    //     item.direction = '';
+    //   }
+    // });
+
+    // sorting countries
+    // if (direction === '' || column === '') {
+    //   this.vaultsToSort = this.vaults;
+    // } else {
+    //   this.vaultsToSort = [...this.vaults].sort((a, b) => {
+    //     const res = compare(a['vault'], b['vault']);
+    //     return direction === 'asc' ? res : -res;
+    //   });
+    // }
+    // sorting vaults
+    if (!(direction === '') && !(column === '')) {
+      this.vaultsToSort = [...this.vaults].sort((a, b) => {
+        const res = compare(a['vault'], b['vault']);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
 
   filterVaultByName(filter: string): Vault[] {
 

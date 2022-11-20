@@ -7,15 +7,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OrderModule } from 'ngx-order-pipe';
 import { FilterPipe } from './utils/filter.pipe';
+import { AppComponent } from './app.component';
+import { SortableButtonDirective } from './utils/sort_directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilterPipe
+    FilterPipe,
+    SortableButtonDirective
   ],
   imports: [
     BrowserModule,
@@ -25,7 +26,6 @@ import { FilterPipe } from './utils/filter.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

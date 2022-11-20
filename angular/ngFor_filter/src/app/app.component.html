@@ -339,21 +339,38 @@
         placeholder="Enter text to search" autofocus>
     </div>
     <!-- <ul class="list-group list-group-flush"> -->
-    <!-- results of ngFor is passed to appFilter with argument searchText -->
-    <!-- <li class="list-group-item" *ngFor="let c of characters | appFilter: searchText">
+    <!-- results of ngFor is passed to filter with argument searchText -->
+    <!-- <li class="list-group-item" *ngFor="let c of characters | filter: searchText">
         {{c}}
       </li>
     </ul> -->
     <div class="card">
-      <button ng-click="changeOrder()">Sort </button>
+      <!-- MUDAR CASO QUEIRA OUTROS VALORES PARA ORDENAR!!!-->
+      <button ng-click="changeOrder('vault')">Sort</button>
     </div>
   </div>
 </div>
-<div *ngIf="normalVaultsOrder" class="content" role="main">
+<div class="content" role="main">
   <!-- <ng-template ngFor let-vehicle [ngForOf]=”vehicles”> {{vehicle.key}}
     
   </ng-template> -->
-  <mat-card class="cor_fundo" *ngFor="let vault of vaults | appFilter: searchText">
+  <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText">
+    <mat-card-content>
+      <button ng-click="sortBy('vault')">Vault</button>
+      {{ vault.vault }}
+    </mat-card-content>
+    <mat-card-content>
+      <button ng-click="sortBy('balance')">Balance</button>
+      {{ vault.transactions[0].balance }}
+    </mat-card-content>
+    <mat-card-content>
+      <button ng-click="sortBy('asset')">Asset</button>
+      {{ vault.transactions[0].asset }}
+    </mat-card-content>
+  </mat-card>
+</div>
+<!-- <div [hidden]="normalVaultsOrder || reverseVaultsSort" class="content" role="main">
+  <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText | orderBy: 'vault' : false">
     <mat-card-content>
       {{ vault.vault }}
     </mat-card-content>
@@ -365,21 +382,8 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div *ngIf="!normalVaultsOrder && !isAscendingSort" class="content" role="main">
-  <mat-card class="cor_fundo" *ngFor="let vault of vaults | appFilter: searchText | orderBy: vault.vault : false">
-    <mat-card-content>
-      {{ vault.vault }}
-    </mat-card-content>
-    <mat-card-content>
-      {{ vault.transactions[0].balance }}
-    </mat-card-content>
-    <mat-card-content>
-      {{ vault.transactions[0].asset }}
-    </mat-card-content>
-  </mat-card>
-</div>
-<div *ngIf="!normalVaultsOrder && isAscendingSort" class="content" role="main">
-  <mat-card class="cor_fundo" *ngFor="let vault of vaults | appFilter: searchText | orderBy: vault.vault : true">
+<div [hidden]="normalVaultsOrder || !reverseVaultsSort" class="content" role="main">
+  <mat-card class="cor_fundo" *ngFor="let vault of vaults | filter: searchText | orderBy: 'vault' : true">
     <mat-card-content>
       {{ vault.vault }}
     </mat-card-content>
@@ -393,7 +397,7 @@
 </div>
 <div class="content" role="main">
   <h1 *ngFor="let state of status" [style.color]="getBackgroundColor(state)">{{state}}</h1>
-</div>
+</div> -->
 <div class="content" role="main">
 
   <!-- Highlight Card -->
